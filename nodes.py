@@ -43,6 +43,15 @@ class MuseModelConfig:
         self.latent_format = comfy.latent_formats.SD15
         self.manual_cast_dtype = None
         self.sampling_settings = {}
+        self.memory_usage_factor = 2.0
+        self.custom_operations = None
+        self.optimizations = {"fp8": False}
+
+    def __getattr__(self, name):
+        if name.startswith("process_"):
+            return lambda obj: obj
+        return None
+
 
 class UNETLoader_MuseTalk:
     @classmethod
